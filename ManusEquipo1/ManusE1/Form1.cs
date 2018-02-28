@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Google.Cloud.Vision.V1;
-
+using ImageProcessor;
+using ImageProcessor.Imaging.Filters.Photo;
 namespace ManusE1
 {
     public partial class Form1 : Form
     {
         string fotoPath;
         string txtPath;
+        string directory;
+        Stream fotoStream;
         //Creo instancia de cliente API
         ImageAnnotatorClient client = ImageAnnotatorClient.Create();
         public Form1()
@@ -24,11 +22,10 @@ namespace ManusE1
 
             private void processButton_Click(object sender, EventArgs e) {
                 textBox1.Text = "Procesando...";
-                //API Vision
+                //Pido a la API Vision
                 var image = Image.FromFile(fotoPath);
                 var response = client.DetectText(image);
                 //Creo archivo txt
-                string directory = Path.GetDirectoryName(fotoPath);
                 CreateTXT(directory);
                 string text = "";
                 //Escribo lo devuelto por Vision 
@@ -36,21 +33,26 @@ namespace ManusE1
                 writeTXT(txtPath, text);
                 textBox1.Text = "Se creó un txt con el resultado.";
                 processButton.Enabled = false;
+                //Elimino imagen creada por improveImage en directorio
+                File.Delete(string.Concat(directory, "\\improvedImg.jpg"));
             }
 
             private void openButton_Click(object sender, EventArgs e) {
                 // Consigo path de imagen 
-                Stream myStream = null;
+                fotoStream = null;
                 openFileDialog1.InitialDirectory = "c:\\" ;
                 openFileDialog1.Filter = "Archivos jpg (*.jpg)|*.jpg*|Todos los archivos (*.*)|*.*" ;
                 openFileDialog1.FilterIndex = 2 ;
                 openFileDialog1.RestoreDirectory = true ;
 
                 if(openFileDialog1.ShowDialog() == DialogResult.OK) {
-                    if ((myStream = openFileDialog1.OpenFile()) != null) {
-                        fotoPath = openFileDialog1.FileName;
-                    }
+                    fotoStream = openFileDialog1.OpenFile();
+                    fotoPath = openFileDialog1.FileName;
+                    directory = Path.GetDirectoryName(fotoPath);
                 }
+                textBox1.Text = ("Cargando imagen...");
+                improveImage(fotoStream, directory);
+                textBox1.Text = ("Imagen cargada. Listo para procesar.");
                 processButton.Enabled = true;
             }
 
@@ -68,5 +70,18 @@ namespace ManusE1
                 file.Write(text);
                 file.Dispose();
             }
+
+            public void improveImage(Stream img, string directory) {
+                var imageFactory = new ImageFactory(false);
+                var improvedImg = imageFactory.Load(img);
+                //Aplico mejoras
+                improvedImg.Contrast(65);
+                improvedImg.Filter(MatrixFilters.BlackWhite);
+                improvedImg.AutoRotate();
+
+                //Guardo imagen mejorada
+                improvedImg.Save(string.Concat(directory, "\\improvedImg.jpg"));
+            }
+
         }
     }
