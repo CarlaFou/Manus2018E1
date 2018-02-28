@@ -49,6 +49,6 @@ C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\Newt
 C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\System.Interactive.Async.xml
 C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\System.Net.Http.Formatting.xml
-C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\obj\Debug\WindowsFormsManus.csprojResolveAssemblyReference.cache
 C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\ImageProcessor.dll
 C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\bin\Debug\ImageProcessor.xml
+C:\Users\Mariana\source\repos\WindowsFormsManus\WindowsFormsManus\obj\Debug\WindowsFormsManus.csprojResolveAssemblyReference.cache
