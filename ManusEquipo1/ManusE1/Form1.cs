@@ -75,8 +75,8 @@ namespace ManusE1
                 var imageFactory = new ImageFactory(false);
                 var improvedImg = imageFactory.Load(img);
                 //Aplico mejoras
-                improvedImg.Contrast(65);
                 improvedImg.Filter(MatrixFilters.BlackWhite);
+                improvedImg.Contrast(70);
                 improvedImg.AutoRotate();
 
                 //Guardo imagen mejorada
